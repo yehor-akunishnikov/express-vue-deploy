@@ -1,0 +1,28 @@
+import "reflect-metadata";
+
+import express from "express";
+import path from "node:path";
+
+import { globalErrorHandler } from "./middleware/errorHandler";
+import helloRouter from "./features/hello";
+import config from "./config";
+
+const app = express();
+
+app.use(express.json());
+
+app.use("/api", helloRouter);
+
+app.use(express.static(path.join(process.cwd(), "assets")));
+
+app.get("/{*any}", (req, res) => {
+  res.sendFile(path.resolve(process.cwd(), "assets", "index.html"));
+});
+
+app.use(globalErrorHandler);
+
+app.listen(config.port, () => {
+  console.log(
+    `Server running on port ${config.port}. Open: http://localhost:${config.port}`,
+  );
+});
