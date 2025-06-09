@@ -20,9 +20,12 @@ onMounted(async () => {
 
 <template>
   <main>
-    <div style="padding: 1rem">
-      <p style="text-align: center">Response from server</p>
-      <p style="text-align: center">{{ state }}</p>
+    <div class="text-center min-h-screen flex items-center justify-center">
+      <div>
+        <p>Response from server</p>
+        <p>{{ state }}</p>
+        <RouterLink to="/auth">Get started</RouterLink>
+      </div>
     </div>
   </main>
 </template>

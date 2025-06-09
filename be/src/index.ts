@@ -5,6 +5,7 @@ import path from "node:path";
 
 import { globalErrorHandler } from "./middleware/errorHandler";
 import helloRouter from "./features/hello";
+import authRouter from "./features/auth";
 import config from "./config";
 
 const app = express();
@@ -12,6 +13,7 @@ const app = express();
 app.use(express.json());
 
 app.use("/api", helloRouter);
+app.use("/api/auth", authRouter);
 
 app.use(express.static(path.join(process.cwd(), "assets")));
 

@@ -1,1 +1,17 @@
 @import "tailwindcss";
+
+.form-field {
+  &.invalid {
+    .input-wrapper {
+      border-color: var(--color-red-700);
+    }
+
+    .addon {
+      border-color: var(--color-red-700);
+    }
+
+    .input {
+      color: var(--color-red-700);
+    }
+  }
+}

@@ -11,6 +11,9 @@ class Config {
 
   /* Database */
   public readonly dbUrl: string = process.env.DB_URL!;
+
+  /* Auth */
+  public readonly authSecret: string = process.env.AUTH_SECRET!;
 }
 
 export default new Config();
