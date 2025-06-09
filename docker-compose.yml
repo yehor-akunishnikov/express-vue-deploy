@@ -10,7 +10,7 @@ services:
       - postgres
     environment:
       NODE_ENV: production
-      DB_HOST: db-service-container
+      DB_HOST: postgres
       PORT: ${PORT}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
