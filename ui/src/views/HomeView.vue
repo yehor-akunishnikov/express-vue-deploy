@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 
-import TheWelcome from "../components/TheWelcome.vue";
-
 const state = ref<string>();
 
 onMounted(async () => {
@@ -26,6 +24,5 @@ onMounted(async () => {
       <p style="text-align: center">Response from server</p>
       <p style="text-align: center">{{ state }}</p>
     </div>
-    <TheWelcome />
   </main>
 </template>
