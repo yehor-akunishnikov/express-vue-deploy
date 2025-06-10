@@ -36,16 +36,18 @@ export const useForm = <T extends Record<string, unknown>>(defaultValue: T, vali
     return errorsMap;
   });
 
-  const isValid = computed(() =>
-    Object.values(errorState.value).every((value) => !value.errorMessage),
-  );
+  function setDirty() {
+    isDirty.value = true;
+  }
+
+  function isValid() {
+    return Object.values(errorState.value).every((value) => !value.errorMessage);
+  }
 
   return {
     state,
     errorState,
-    setDirty: () => {
-      isDirty.value = true;
-    },
+    setDirty,
     isValid,
   };
 };

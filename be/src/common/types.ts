@@ -1,6 +1,6 @@
 import { Handler } from "express";
 
-export type ControllerHandler = [[HTTP_METHOD, string], Handler];
+export type ControllerHandler = [[HTTP_METHOD, string], Handler[]];
 
 export type Controller = ControllerHandler[];
 

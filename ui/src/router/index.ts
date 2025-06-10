@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 import HomeView from "@/features/home/HomePage.vue";
+import { authTokenKey } from "@/constants/common.ts";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -14,8 +15,16 @@ const router = createRouter({
           component: HomeView,
         },
       ],
+      beforeEnter: () => {
+        if (localStorage.getItem(authTokenKey)) {
+          return true;
+        } else {
+          return { name: "auth" };
+        }
+      },
     },
     {
+      name: "auth",
       path: "/auth",
       redirect: "/auth/login",
       component: () => import("@/features/auth/AuthLayout.vue"),
@@ -31,6 +40,9 @@ const router = createRouter({
           name: "auth:register",
         },
       ],
+      beforeEnter: () => {
+        localStorage.removeItem(authTokenKey);
+      },
     },
   ],
 });

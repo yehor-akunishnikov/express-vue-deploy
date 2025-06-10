@@ -1,20 +1,24 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
+import httpClient from "@/utils/httpClient.ts";
 
 const state = ref<string>();
 
 onMounted(async () => {
-  const data = await fetch("/api/hello", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      name: "test",
-    }),
-  }).then((data) => data.json());
+  try {
+    const data = await httpClient.POST("/api/hello", {
+      isAuth: true,
+      init: {
+        body: JSON.stringify({
+          name: "test",
+        }),
+      },
+    });
 
-  state.value = JSON.stringify(data);
+    state.value = JSON.stringify(data);
+  } catch (e) {
+    console.log(e);
+  }
 });
 </script>
 

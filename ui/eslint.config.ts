@@ -22,4 +22,9 @@ export default defineConfigWithVueTs(
   },
   skipFormatting,
   prettierConfig,
+  {
+    rules: {
+      "@typescript-eslint/no-unused-vars": 0,
+    },
+  },
 );

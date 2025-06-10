@@ -6,6 +6,8 @@ import FormInput from "@/components/forms/FormInput.vue";
 import AuthFormBtn from "@/features/auth/partials/AuthFormBtn.vue";
 import { loginValidator } from "@/features/auth/forms/validators.ts";
 import AuthBottomLink from "@/features/auth/partials/AuthBottomLink.vue";
+import { authTokenKey } from "@/constants/common.ts";
+import httpClient from "@/utils/httpClient.ts";
 import router from "@/router";
 
 const form = useForm(
@@ -19,17 +21,15 @@ const form = useForm(
 const onSubmit = async () => {
   form.setDirty();
 
-  if (form.isValid) {
+  if (form.isValid()) {
     try {
-      const response = await fetch("/api/auth/login", {
-        body: JSON.stringify(form.state),
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const res: { token: string } = await httpClient.POST("/api/auth/login", {
+        init: {
+          body: JSON.stringify(form.state),
         },
-      }).then((data) => data.json());
+      });
 
-      console.log(response);
+      localStorage.setItem(authTokenKey, res.token);
 
       await router.push("/");
     } catch (e) {

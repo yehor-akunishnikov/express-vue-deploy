@@ -10,4 +10,9 @@ export default defineConfig([
   },
   tseslint.configs.recommended,
   eslintPluginPrettierRecommended,
+  {
+    rules: {
+      "@typescript-eslint/no-unused-vars": 0,
+    },
+  },
 ]);
