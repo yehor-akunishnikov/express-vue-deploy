@@ -37,8 +37,6 @@ const handleErrorResponse = async <T>(promiseResponse: Promise<Response>): Promi
     if (res.status === 401) {
       removeAuthToken();
       await router.push({ name: "auth" });
-
-      return data;
     }
 
     throw new HttpError(data.message, data.status);

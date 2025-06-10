@@ -29,9 +29,11 @@ const onSubmit = async () => {
         },
       });
 
-      setAuthToken(res.token);
+      if (res.token) {
+        setAuthToken(res.token);
 
-      await router.push({ name: "dashboard" });
+        await router.push({ name: "dashboard" });
+      }
     } catch (e) {
       console.error(e);
     }
