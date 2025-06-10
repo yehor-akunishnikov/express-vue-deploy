@@ -1,4 +1,4 @@
-import { authTokenKey } from "@/constants/common.ts";
+import { getAuthToken, removeAuthToken } from "@/utils/localStorage.ts";
 import { HttpError } from "@/errors/http.ts";
 import router from "@/router";
 
@@ -35,7 +35,7 @@ const handleErrorResponse = async <T>(promiseResponse: Promise<Response>): Promi
 
   if (!res.ok) {
     if (res.status === 401) {
-      localStorage.removeItem(authTokenKey);
+      removeAuthToken();
       await router.push({ name: "auth" });
 
       return data;
@@ -47,8 +47,8 @@ const handleErrorResponse = async <T>(promiseResponse: Promise<Response>): Promi
   return data;
 };
 
-const setupRequestInit = (config: HttpMethodConfig, method: string) => {
-  const token = localStorage.getItem(authTokenKey);
+const setupRequestInit = (config: HttpMethodConfig, method: string): RequestInit => {
+  const token = getAuthToken();
   const init: RequestInit = {
     ...(config.init ?? {}),
     method,

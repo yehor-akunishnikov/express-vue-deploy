@@ -28,7 +28,7 @@ onMounted(async () => {
       <div>
         <p>Response from server</p>
         <p>{{ state }}</p>
-        <RouterLink to="/auth">Get started</RouterLink>
+        <RouterLink to="/dashboard">Get started</RouterLink>
       </div>
     </div>
   </main>

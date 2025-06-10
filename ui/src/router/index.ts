@@ -1,7 +1,9 @@
 import { createRouter, createWebHistory } from "vue-router";
 
+import DashboardPage from "@/features/dashboard/DashboardPage.vue";
+import { removeAuthToken } from "@/utils/localStorage.ts";
 import HomeView from "@/features/home/HomePage.vue";
-import { authTokenKey } from "@/constants/common.ts";
+import { authGuard } from "@/router/guards.ts";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -15,13 +17,12 @@ const router = createRouter({
           component: HomeView,
         },
       ],
-      beforeEnter: () => {
-        if (localStorage.getItem(authTokenKey)) {
-          return true;
-        } else {
-          return { name: "auth" };
-        }
-      },
+    },
+    {
+      name: "dashboard",
+      path: "/dashboard",
+      component: DashboardPage,
+      beforeEnter: authGuard,
     },
     {
       name: "auth",
@@ -41,7 +42,7 @@ const router = createRouter({
         },
       ],
       beforeEnter: () => {
-        localStorage.removeItem(authTokenKey);
+        removeAuthToken();
       },
     },
   ],

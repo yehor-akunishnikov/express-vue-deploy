@@ -6,7 +6,7 @@ import FormInput from "@/components/forms/FormInput.vue";
 import AuthFormBtn from "@/features/auth/partials/AuthFormBtn.vue";
 import { loginValidator } from "@/features/auth/forms/validators.ts";
 import AuthBottomLink from "@/features/auth/partials/AuthBottomLink.vue";
-import { authTokenKey } from "@/constants/common.ts";
+import { setAuthToken } from "@/utils/localStorage.ts";
 import httpClient from "@/utils/httpClient.ts";
 import router from "@/router";
 
@@ -29,9 +29,9 @@ const onSubmit = async () => {
         },
       });
 
-      localStorage.setItem(authTokenKey, res.token);
+      setAuthToken(res.token);
 
-      await router.push("/");
+      await router.push({ name: "dashboard" });
     } catch (e) {
       console.error(e);
     }
