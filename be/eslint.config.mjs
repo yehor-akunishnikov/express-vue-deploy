@@ -12,7 +12,12 @@ export default defineConfig([
   eslintPluginPrettierRecommended,
   {
     rules: {
-      "@typescript-eslint/no-unused-vars": 0,
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          caughtErrors: "none",
+        },
+      ],
     },
   },
 ]);
