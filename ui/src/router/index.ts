@@ -45,6 +45,10 @@ const router = createRouter({
         removeAuthToken();
       },
     },
+    {
+      path: "/:pathMatch(.*)",
+      component: () => import("@/features/not-found/NotFoundPage.vue"),
+    },
   ],
 });
 
