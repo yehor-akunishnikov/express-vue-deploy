@@ -36,14 +36,18 @@ export const useForm = <T extends Record<string, unknown>>(
     return errorsMap;
   });
 
-  function isValid(): boolean {
-    return Object.values(errorState.value).every((value) => !value);
-  }
+  const isValid = computed(() => {
+    if (isDirty.value) {
+      return Object.values(errorState.value).every((value) => !value);
+    } else {
+      return true;
+    }
+  });
 
   async function handleSubmit(e: Event) {
     isDirty.value = true;
 
-    if (isValid()) {
+    if (isValid.value) {
       try {
         isLoading.value = true;
 
@@ -59,6 +63,7 @@ export const useForm = <T extends Record<string, unknown>>(
     errorState,
     isLoading,
     isDirty,
+    isValid,
     handleSubmit,
   };
 };
