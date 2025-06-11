@@ -8,8 +8,8 @@ export const useCurrentUserStore = defineStore("currentUserStore", () => {
   const currentUser = ref<CurrentUser | null>(null);
   const isLoading = ref(false);
 
-  const isAuthorized = computed(() => !!currentUser.value);
-  const isUnauthorized = computed(() => !currentUser.value);
+  const isAuthorized = computed<boolean>(() => !!currentUser.value);
+  const isUnauthorized = computed<boolean>(() => !currentUser.value);
 
   async function load(): Promise<void> {
     try {

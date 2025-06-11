@@ -12,7 +12,7 @@ export const useForm = <T extends Record<string, unknown>>(
   const isDirty = ref(false);
   const isLoading = ref(false);
 
-  const errorState = computed((): ErrorState => {
+  const errorState = computed<ErrorState>((): ErrorState => {
     const errorsMap: ErrorState = {};
 
     if (!isDirty.value) {
@@ -36,7 +36,7 @@ export const useForm = <T extends Record<string, unknown>>(
     return errorsMap;
   });
 
-  const isValid = computed(() => {
+  const isValid = computed<boolean>(() => {
     if (isDirty.value) {
       return Object.values(errorState.value).every((value) => !value);
     } else {
@@ -44,7 +44,7 @@ export const useForm = <T extends Record<string, unknown>>(
     }
   });
 
-  async function handleSubmit(e: Event) {
+  async function handleSubmit(e: Event): Promise<void> {
     isDirty.value = true;
 
     if (isValid.value) {

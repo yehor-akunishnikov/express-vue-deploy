@@ -12,7 +12,7 @@ export const useAppAlertStore = defineStore("appAlertStore", () => {
   );
   const isShown = computed<boolean>(() => !!configsQueue.value.length);
 
-  function show(alertConfig: AlertConfig) {
+  function show(alertConfig: AlertConfig): void {
     alertConfig.title = alertConfig.title ?? alertConfig.severity;
     configsQueue.value = [...configsQueue.value, alertConfig];
     latestConfig.value = alertConfig;
