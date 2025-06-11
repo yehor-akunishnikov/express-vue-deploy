@@ -8,7 +8,6 @@ const state = ref<string>();
 onMounted(async () => {
   try {
     const data = await httpClient.POST("/api/hello", {
-      isAuth: true,
       init: {
         body: JSON.stringify({
           name: "test",

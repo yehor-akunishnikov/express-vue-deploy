@@ -1,4 +1,4 @@
-import { getAuthToken, removeAuthToken } from "@/utils/localStorage.ts";
+import { getAuthToken, hasAuthToken, removeAuthToken } from "@/utils/localStorage.ts";
 import { HttpError } from "@/errors/http.ts";
 import router from "@/router";
 
@@ -6,7 +6,6 @@ type HttpClientInit = Omit<RequestInit, "method">;
 
 type HttpMethodConfig = {
   init?: HttpClientInit;
-  isAuth?: boolean;
 };
 
 const GET = async <T>(url: string, config?: HttpMethodConfig): Promise<T> => {
@@ -46,7 +45,6 @@ const handleErrorResponse = async <T>(promiseResponse: Promise<Response>): Promi
 };
 
 const setupRequestInit = (method: string, config?: HttpMethodConfig): RequestInit => {
-  const token = getAuthToken();
   const init: RequestInit = {
     ...(config?.init ?? {}),
     method,
@@ -56,10 +54,10 @@ const setupRequestInit = (method: string, config?: HttpMethodConfig): RequestIni
     },
   };
 
-  if (config?.isAuth) {
+  if (hasAuthToken()) {
     init.headers = {
       ...init.headers,
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${getAuthToken()}`,
     };
   }
 

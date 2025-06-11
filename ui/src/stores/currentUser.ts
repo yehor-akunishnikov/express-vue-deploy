@@ -14,7 +14,7 @@ export const useCurrentUserStore = defineStore("currentUser", () => {
   async function load(): Promise<void> {
     try {
       isLoading.value = true;
-      currentUser.value = await httpClient.GET<CurrentUser>("/api/user/me", { isAuth: true });
+      currentUser.value = await httpClient.GET<CurrentUser>("/api/user/me");
       isLoading.value = false;
     } catch (e) {
       currentUser.value = null;
