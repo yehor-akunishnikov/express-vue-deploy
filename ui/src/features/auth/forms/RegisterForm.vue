@@ -29,7 +29,7 @@ const onSubmit = async () => {
         },
       });
 
-      await router.push({ name: "auth:login" });
+      router.push({ name: "auth:login" });
     } catch (e) {
       console.error(e);
     }

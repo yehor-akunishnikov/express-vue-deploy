@@ -9,24 +9,24 @@ type HttpMethodConfig = {
   isAuth?: boolean;
 };
 
-const GET = async <T>(url: string, config: HttpMethodConfig): Promise<T> => {
-  return handleErrorResponse<T>(fetch(url, setupRequestInit(config, "GET")));
+const GET = async <T>(url: string, config?: HttpMethodConfig): Promise<T> => {
+  return handleErrorResponse<T>(fetch(url, setupRequestInit("GET", config)));
 };
 
-const POST = async <T>(url: string, config: HttpMethodConfig): Promise<T> => {
-  return handleErrorResponse<T>(fetch(url, setupRequestInit(config, "POST")));
+const POST = async <T>(url: string, config?: HttpMethodConfig): Promise<T> => {
+  return handleErrorResponse<T>(fetch(url, setupRequestInit("POST", config)));
 };
 
-const PUT = async <T>(url: string, config: HttpMethodConfig): Promise<T> => {
-  return handleErrorResponse<T>(fetch(url, setupRequestInit(config, "PUT")));
+const PUT = async <T>(url: string, config?: HttpMethodConfig): Promise<T> => {
+  return handleErrorResponse<T>(fetch(url, setupRequestInit("PUT", config)));
 };
 
-const PATCH = async <T>(url: string, config: HttpMethodConfig): Promise<T> => {
-  return handleErrorResponse<T>(fetch(url, setupRequestInit(config, "PATCH")));
+const PATCH = async <T>(url: string, config?: HttpMethodConfig): Promise<T> => {
+  return handleErrorResponse<T>(fetch(url, setupRequestInit("PATCH", config)));
 };
 
-const DELETE = async <T>(url: string, config: HttpMethodConfig): Promise<T> => {
-  return handleErrorResponse<T>(fetch(url, setupRequestInit(config, "DELETE")));
+const DELETE = async <T>(url: string, config?: HttpMethodConfig): Promise<T> => {
+  return handleErrorResponse<T>(fetch(url, setupRequestInit("DELETE", config)));
 };
 
 const handleErrorResponse = async <T>(promiseResponse: Promise<Response>): Promise<T> => {
@@ -36,7 +36,7 @@ const handleErrorResponse = async <T>(promiseResponse: Promise<Response>): Promi
   if (!res.ok) {
     if (res.status === 401) {
       removeAuthToken();
-      await router.push({ name: "auth" });
+      router.push({ name: "auth" });
     }
 
     throw new HttpError(data.message, data.status);
@@ -45,18 +45,18 @@ const handleErrorResponse = async <T>(promiseResponse: Promise<Response>): Promi
   return data;
 };
 
-const setupRequestInit = (config: HttpMethodConfig, method: string): RequestInit => {
+const setupRequestInit = (method: string, config?: HttpMethodConfig): RequestInit => {
   const token = getAuthToken();
   const init: RequestInit = {
-    ...(config.init ?? {}),
+    ...(config?.init ?? {}),
     method,
     headers: {
-      ...(config.init?.headers ?? {}),
+      ...(config?.init?.headers ?? {}),
       "Content-Type": "application/json",
     },
   };
 
-  if (config.isAuth) {
+  if (config?.isAuth) {
     init.headers = {
       ...init.headers,
       Authorization: `Bearer ${token}`,

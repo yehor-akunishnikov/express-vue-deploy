@@ -1,6 +1,6 @@
 import { UserSelect } from "../../db/models/user/types";
 
-export const userPublicDto = (
+export const currentUserDto = (
   user: UserSelect,
 ): Omit<UserSelect, "password"> => {
   return {
@@ -9,4 +9,4 @@ export const userPublicDto = (
     name: user.name,
   };
 };
-type UserPublicDto = ReturnType<typeof userPublicDto>;
+type CurrentUserDto = ReturnType<typeof currentUserDto>;

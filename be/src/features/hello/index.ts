@@ -1,10 +1,8 @@
 import { z } from "zod/v4";
 
+import { HTTP_METHOD, HTTP_STATUS_CODE } from "../../common/types";
 import { setupController } from "../../common/utils";
-import { HTTP_METHOD } from "../../common/types";
 import { authMW } from "../../middleware/auth";
-import { userPublicDto } from "../user/dto";
-import { getHelloData } from "./repo";
 
 export default setupController([
   [
@@ -13,11 +11,9 @@ export default setupController([
       authMW,
       async (req, res) => {
         const body = z.object({ name: z.string().nonempty() }).parse(req.body);
-        const data = await getHelloData();
 
-        res.json({
+        res.status(HTTP_STATUS_CODE.OK).json({
           echo: body.name,
-          dataFromDb: data.map((user) => userPublicDto(user)),
         });
       },
     ],

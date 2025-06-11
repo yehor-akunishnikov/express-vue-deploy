@@ -1,9 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import DashboardPage from "@/features/dashboard/DashboardPage.vue";
-import { removeAuthToken } from "@/utils/localStorage.ts";
+import { authGuard, logoutGuard, userDataGuard } from "@/router/guards.ts";
+import CommonLayout from "@/components/layout/CommonLayout.vue";
 import HomeView from "@/features/home/HomePage.vue";
-import { authGuard } from "@/router/guards.ts";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -11,18 +10,20 @@ const router = createRouter({
     {
       path: "/",
       redirect: "/home",
+      component: CommonLayout,
       children: [
         {
+          name: "home",
           path: "/home",
           component: HomeView,
         },
+        {
+          name: "dashboard",
+          path: "/dashboard",
+          component: () => import("@/features/dashboard/DashboardPage.vue"),
+          beforeEnter: authGuard,
+        },
       ],
-    },
-    {
-      name: "dashboard",
-      path: "/dashboard",
-      component: DashboardPage,
-      beforeEnter: authGuard,
     },
     {
       name: "auth",
@@ -41,9 +42,7 @@ const router = createRouter({
           name: "auth:register",
         },
       ],
-      beforeEnter: () => {
-        removeAuthToken();
-      },
+      beforeEnter: logoutGuard,
     },
     {
       path: "/:pathMatch(.*)",
@@ -51,5 +50,7 @@ const router = createRouter({
     },
   ],
 });
+
+router.beforeEach(userDataGuard);
 
 export default router;

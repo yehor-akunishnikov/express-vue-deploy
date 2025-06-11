@@ -1,5 +1,9 @@
 import { authTokenKey } from "@/constants/common.ts";
 
+export const hasAuthToken = (): boolean => {
+  return !!getAuthToken();
+};
+
 export const getAuthToken = (): string | null => {
   return localStorage.getItem(authTokenKey);
 };

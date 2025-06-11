@@ -32,7 +32,7 @@ const onSubmit = async () => {
       if (res.token) {
         setAuthToken(res.token);
 
-        await router.push({ name: "dashboard" });
+        router.push({ name: "dashboard" });
       }
     } catch (e) {
       console.error(e);
