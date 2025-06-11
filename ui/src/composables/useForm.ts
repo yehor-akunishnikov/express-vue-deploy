@@ -44,11 +44,13 @@ export const useForm = <T extends Record<string, unknown>>(
     isDirty.value = true;
 
     if (isValid()) {
-      isLoading.value = true;
+      try {
+        isLoading.value = true;
 
-      await onSubmit(e);
-
-      isLoading.value = false;
+        await onSubmit(e);
+      } finally {
+        isLoading.value = false;
+      }
     }
   }
 
