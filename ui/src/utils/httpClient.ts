@@ -1,4 +1,4 @@
-import { getAuthToken, hasAuthToken, removeAuthToken } from "@/utils/localStorage.ts";
+import { getAuthToken, hasAuthToken } from "@/utils/localStorage.ts";
 import { HttpError } from "@/errors/http.ts";
 import router from "@/router";
 
@@ -34,7 +34,6 @@ const handleErrorResponse = async <T>(promiseResponse: Promise<Response>): Promi
 
   if (!res.ok) {
     if (res.status === 401) {
-      removeAuthToken();
       router.push({ name: "auth" });
     }
 
