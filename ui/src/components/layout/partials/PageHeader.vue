@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { RouterLink } from "vue-router";
 
-import { useCurrentUserStore } from "@/stores/currentUser.ts";
+import { useCurrentUserStore } from "@/stores/currentUser";
 
 const currentUserStore = useCurrentUserStore();
 </script>

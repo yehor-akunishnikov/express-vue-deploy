@@ -30,6 +30,7 @@ export default defineConfigWithVueTs(
           caughtErrors: "none",
         },
       ],
+      "vue/multi-word-component-names": 0,
     },
   },
 );

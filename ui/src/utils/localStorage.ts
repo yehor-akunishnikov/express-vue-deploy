@@ -1,4 +1,4 @@
-import { authTokenKey } from "@/constants/common.ts";
+import { authTokenKey } from "@/constants/common";
 
 export const hasAuthToken = (): boolean => {
   return !!getAuthToken();

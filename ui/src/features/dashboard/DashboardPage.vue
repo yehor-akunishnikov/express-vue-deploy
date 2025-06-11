@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 
-import httpClient from "@/utils/httpClient.ts";
+import httpClient from "@/utils/httpClient";
 
 const state = ref<string>();
 

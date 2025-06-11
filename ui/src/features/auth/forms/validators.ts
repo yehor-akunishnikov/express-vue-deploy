@@ -1,6 +1,6 @@
 import { z } from "zod/v4";
 
-import { strongPassword } from "@/constants/regexp.ts";
+import { strongPassword } from "@/constants/regexp";
 
 export const registerValidator = z.object({
   email: z.email({ error: "Invalid email" }),

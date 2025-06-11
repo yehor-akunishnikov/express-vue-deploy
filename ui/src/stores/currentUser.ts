@@ -4,7 +4,7 @@ import { computed, ref } from "vue";
 import type { CurrentUser } from "@/types/user";
 import httpClient from "@/utils/httpClient";
 
-export const useCurrentUserStore = defineStore("currentUser", () => {
+export const useCurrentUserStore = defineStore("currentUserStore", () => {
   const currentUser = ref<CurrentUser | null>(null);
   const isLoading = ref(false);
 

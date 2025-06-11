@@ -1,14 +1,17 @@
 <script setup lang="ts">
-import { useForm } from "@/composables/useForm.ts";
+import { useForm } from "@/composables/useForm";
 import PasswordInput from "@/components/forms/PasswordInput.vue";
 import FormField from "@/components/forms/FormField.vue";
 import FormInput from "@/components/forms/FormInput.vue";
 import AuthFormBtn from "@/features/auth/partials/AuthFormBtn.vue";
-import { registerValidator } from "@/features/auth/forms/validators.ts";
+import { registerValidator } from "@/features/auth/forms/validators";
 import AuthBottomLink from "@/features/auth/partials/AuthBottomLink.vue";
-import httpClient from "@/utils/httpClient.ts";
+import { useAppAlertStore } from "@/stores/appAlert";
+import httpClient from "@/utils/httpClient";
+import { ALERT_SEVERITY } from "@/types/common";
 import router from "@/router";
 
+const alert = useAppAlertStore();
 const form = useForm(
   {
     email: "",
@@ -16,12 +19,7 @@ const form = useForm(
     password: "",
   },
   registerValidator,
-);
-
-const onSubmit = async () => {
-  form.setDirty();
-
-  if (form.isValid()) {
+  async () => {
     try {
       await httpClient.POST("/api/auth/register", {
         init: {
@@ -31,19 +29,22 @@ const onSubmit = async () => {
 
       router.push({ name: "auth:login" });
     } catch (e) {
-      console.error(e);
+      alert.show({
+        description: "Failed to register, please try again",
+        severity: ALERT_SEVERITY.ERROR,
+      });
     }
-  }
-};
+  },
+);
 </script>
 
 <template>
-  <form @submit.stop.prevent="onSubmit">
+  <form @submit.stop.prevent="form.handleSubmit">
     <div class="space-y-3 mb-6">
       <FormField
         id="email-input"
         label="Email"
-        :error-msg="form.errorState.value?.email?.errorMessage"
+        :error-msg="form.errorState.value?.email"
       >
         <FormInput
           v-model="form.state.email"
@@ -56,7 +57,7 @@ const onSubmit = async () => {
       <FormField
         id="name-input"
         label="Nickname"
-        :error-msg="form.errorState.value?.name?.errorMessage"
+        :error-msg="form.errorState.value?.name"
       >
         <FormInput
           v-model="form.state.name"
@@ -69,7 +70,7 @@ const onSubmit = async () => {
       <FormField
         id="password-input"
         label="Password"
-        :error-msg="form.errorState.value?.password?.errorMessage"
+        :error-msg="form.errorState.value?.password"
       >
         <PasswordInput
           v-model="form.state.password"
@@ -80,7 +81,12 @@ const onSubmit = async () => {
     </div>
 
     <div class="space-y-2">
-      <AuthFormBtn type="submit">Register</AuthFormBtn>
+      <AuthFormBtn
+        :disabled="form.isLoading.value"
+        type="submit"
+      >
+        Register
+      </AuthFormBtn>
       <AuthBottomLink to="/auth/login">Login</AuthBottomLink>
     </div>
   </form>

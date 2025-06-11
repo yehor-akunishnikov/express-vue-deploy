@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import { authGuard, logoutGuard, userDataGuard } from "@/router/guards.ts";
+import { authGuard, logoutGuard, userDataGuard } from "@/router/guards";
 import CommonLayout from "@/components/layout/CommonLayout.vue";
 import HomeView from "@/features/home/HomePage.vue";
 

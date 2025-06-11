@@ -1,5 +1,5 @@
-import { getAuthToken, hasAuthToken, removeAuthToken } from "@/utils/localStorage.ts";
-import { HttpError } from "@/errors/http.ts";
+import { getAuthToken, hasAuthToken, removeAuthToken } from "@/utils/localStorage";
+import { HttpError } from "@/errors/http";
 import router from "@/router";
 
 type HttpClientInit = Omit<RequestInit, "method">;

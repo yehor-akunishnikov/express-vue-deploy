@@ -3,6 +3,7 @@ import type { ButtonHTMLAttributes } from "vue";
 
 defineProps<{
   type: ButtonHTMLAttributes["type"];
+  disabled?: boolean;
 }>();
 </script>
 
@@ -10,6 +11,7 @@ defineProps<{
   <button
     class="btn"
     :type="type"
+    :disabled="disabled"
   >
     <slot />
   </button>
@@ -28,7 +30,7 @@ defineProps<{
   border-style: solid;
   border-color: unset;
 
-  &.disabled {
+  &:disabled {
     opacity: 0.4;
     cursor: not-allowed;
     background: var(--color-teal-700);

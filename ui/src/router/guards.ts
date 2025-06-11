@@ -1,5 +1,5 @@
-import { hasAuthToken, removeAuthToken } from "@/utils/localStorage.ts";
-import { useCurrentUserStore } from "@/stores/currentUser.ts";
+import { hasAuthToken, removeAuthToken } from "@/utils/localStorage";
+import { useCurrentUserStore } from "@/stores/currentUser";
 
 export const authGuard = (): boolean | { name: string } => {
   if (hasAuthToken()) {

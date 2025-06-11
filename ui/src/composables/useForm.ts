@@ -1,16 +1,16 @@
 import { computed, reactive, ref } from "vue";
 import { z, ZodType } from "zod/v4";
 
-type ErrorState = Record<
-  string,
-  {
-    errorMessage?: string;
-  }
->;
+type ErrorState = Record<string, string>;
 
-export const useForm = <T extends Record<string, unknown>>(defaultValue: T, validator: ZodType) => {
+export const useForm = <T extends Record<string, unknown>>(
+  defaultValue: T,
+  validator: ZodType,
+  onSubmit: (e: Event) => Promise<void>,
+) => {
   const state = reactive<T>(defaultValue);
   const isDirty = ref(false);
+  const isLoading = ref(false);
 
   const errorState = computed((): ErrorState => {
     const errorsMap: ErrorState = {};
@@ -25,29 +25,38 @@ export const useForm = <T extends Record<string, unknown>>(defaultValue: T, vali
       const errors = z.flattenError(validationResult.error);
 
       Object.entries(errors.fieldErrors).forEach(([key, value]) => {
-        errorsMap[key] = { errorMessage: (value as string[])[0] };
+        errorsMap[key] = (value as string[])[0];
       });
 
       if (errors.formErrors) {
-        errorsMap.formErrors = { errorMessage: errors.formErrors[0] };
+        errorsMap.formErrors = errors.formErrors[0];
       }
     }
 
     return errorsMap;
   });
 
-  function setDirty() {
-    isDirty.value = true;
+  function isValid(): boolean {
+    return Object.values(errorState.value).every((value) => !value);
   }
 
-  function isValid() {
-    return Object.values(errorState.value).every((value) => !value.errorMessage);
+  async function handleSubmit(e: Event) {
+    isDirty.value = true;
+
+    if (isValid()) {
+      isLoading.value = true;
+
+      await onSubmit(e);
+
+      isLoading.value = false;
+    }
   }
 
   return {
     state,
     errorState,
-    setDirty,
-    isValid,
+    isLoading,
+    isDirty,
+    handleSubmit,
   };
 };
