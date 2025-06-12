@@ -1,17 +1,17 @@
 import { authTokenKey } from "@/constants/common";
 
-export const hasAuthToken = (): boolean => {
+export function hasAuthToken(): boolean {
   return !!getAuthToken();
-};
+}
 
-export const getAuthToken = (): string | null => {
+export function getAuthToken(): string | null {
   return localStorage.getItem(authTokenKey);
-};
+}
 
-export const setAuthToken = (token: string): void => {
+export function setAuthToken(token: string): void {
   localStorage.setItem(authTokenKey, token);
-};
+}
 
-export const removeAuthToken = (): void => {
+export function removeAuthToken(): void {
   localStorage.removeItem(authTokenKey);
-};
+}

@@ -1,15 +1,16 @@
 import { NextFunction, Request, Response } from "express";
 import { z, ZodError } from "zod/v4";
 
-import { HTTP_STATUS_CODE } from "../common/types";
 import { AppError, AuthError, DbError } from "../errors";
+import { HTTP_STATUS_CODE } from "../common/types";
 
-export const globalErrorHandlerMW = (
+export function errorHandlerMW(
   err: AppError,
   req: Request,
   res: Response,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   next: NextFunction,
-) => {
+): void {
   const status = err.status;
 
   if (err.handlerMeta) {
@@ -44,4 +45,4 @@ export const globalErrorHandlerMW = (
       message: err.message ?? "Internal Server Error",
     });
   }
-};
+}

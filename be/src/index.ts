@@ -3,7 +3,7 @@ import "reflect-metadata";
 import express from "express";
 import path from "node:path";
 
-import { globalErrorHandlerMW } from "./middleware/errorHandler";
+import { errorHandlerMW } from "./middleware/errorHandler";
 import helloRouter from "./features/hello";
 import authRouter from "./features/auth";
 import userRouter from "./features/user";
@@ -23,7 +23,7 @@ app.get("/{*any}", (req, res) => {
   res.sendFile(path.resolve(process.cwd(), "assets", "index.html"));
 });
 
-app.use(globalErrorHandlerMW);
+app.use(errorHandlerMW);
 
 app.listen(config.port, () => {
   console.log(

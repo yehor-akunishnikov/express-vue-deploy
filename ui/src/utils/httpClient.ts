@@ -2,33 +2,33 @@ import { getAuthToken, hasAuthToken, removeAuthToken } from "@/utils/localStorag
 import { HttpError } from "@/errors/http";
 import router from "@/router";
 
-type HttpClientInit = Omit<RequestInit, "method">;
+export type HttpClientInit = Omit<RequestInit, "method">;
 
-type HttpMethodConfig = {
+export type HttpMethodConfig = {
   init?: HttpClientInit;
 };
 
-const GET = async <T>(url: string, config?: HttpMethodConfig): Promise<T> => {
+function GET<T>(url: string, config?: HttpMethodConfig): Promise<T> {
   return handleErrorResponse<T>(fetch(url, setupRequestInit("GET", config)));
-};
+}
 
-const POST = async <T>(url: string, config?: HttpMethodConfig): Promise<T> => {
+function POST<T>(url: string, config?: HttpMethodConfig): Promise<T> {
   return handleErrorResponse<T>(fetch(url, setupRequestInit("POST", config)));
-};
+}
 
-const PUT = async <T>(url: string, config?: HttpMethodConfig): Promise<T> => {
+function PUT<T>(url: string, config?: HttpMethodConfig): Promise<T> {
   return handleErrorResponse<T>(fetch(url, setupRequestInit("PUT", config)));
-};
+}
 
-const PATCH = async <T>(url: string, config?: HttpMethodConfig): Promise<T> => {
+function PATCH<T>(url: string, config?: HttpMethodConfig): Promise<T> {
   return handleErrorResponse<T>(fetch(url, setupRequestInit("PATCH", config)));
-};
+}
 
-const DELETE = async <T>(url: string, config?: HttpMethodConfig): Promise<T> => {
+function DELETE<T>(url: string, config?: HttpMethodConfig): Promise<T> {
   return handleErrorResponse<T>(fetch(url, setupRequestInit("DELETE", config)));
-};
+}
 
-const handleErrorResponse = async <T>(promiseResponse: Promise<Response>): Promise<T> => {
+async function handleErrorResponse<T>(promiseResponse: Promise<Response>): Promise<T> {
   const res = await promiseResponse;
   const data = await res.json();
 
@@ -42,9 +42,9 @@ const handleErrorResponse = async <T>(promiseResponse: Promise<Response>): Promi
   }
 
   return data;
-};
+}
 
-const setupRequestInit = (method: string, config?: HttpMethodConfig): RequestInit => {
+function setupRequestInit(method: string, config?: HttpMethodConfig): RequestInit {
   const init: RequestInit = {
     ...(config?.init ?? {}),
     method,
@@ -62,7 +62,7 @@ const setupRequestInit = (method: string, config?: HttpMethodConfig): RequestIni
   }
 
   return init;
-};
+}
 
 export default {
   GET,

@@ -8,10 +8,10 @@ export type SetupControllerOptions = {
   middlewares?: ControllerMiddlewares;
 };
 
-export const setupController = (
+export function setupController(
   controller: Controller,
   options?: SetupControllerOptions,
-): Router => {
+): Router {
   const router = Router();
 
   router.use("/", (req, res, next) => {
@@ -36,4 +36,4 @@ export const setupController = (
   });
 
   return router;
-};
+}

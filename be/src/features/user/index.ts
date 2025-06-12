@@ -9,7 +9,7 @@ export default setupController([
     [HTTP_METHOD.GET, "/me"],
     [
       authMW,
-      async (req, res) => {
+      async function getMe(req, res) {
         const userData = await userRepo.findOneByEmail(res.locals.userEmail);
 
         if (userData) {

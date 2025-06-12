@@ -3,7 +3,7 @@ import { userSchema } from "../../db/models/schema";
 import { DbInsertError } from "../../errors";
 import { db } from "../../db";
 
-export const register = async (payload: UserInsert): Promise<UserSelect> => {
+export async function register(payload: UserInsert): Promise<UserSelect> {
   try {
     const response = await db.insert(userSchema).values(payload).returning();
 
@@ -11,4 +11,4 @@ export const register = async (payload: UserInsert): Promise<UserSelect> => {
   } catch (e) {
     throw new DbInsertError("Failed to register", e);
   }
-};
+}

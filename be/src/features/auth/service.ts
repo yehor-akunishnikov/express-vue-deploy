@@ -6,16 +6,16 @@ import * as userRepo from "../user/repo";
 import * as authRepo from "./repo";
 import config from "../../config";
 
-export const register = async (payload: RegisterPayload): Promise<void> => {
+export async function register(payload: RegisterPayload): Promise<void> {
   const password = await bcrypt.hash(payload.password, 10);
 
   await authRepo.register({
     ...payload,
     password,
   });
-};
+}
 
-export const login = async (payload: LoginPayload): Promise<string | null> => {
+export async function login(payload: LoginPayload): Promise<string | null> {
   const user = await userRepo.findOneByEmail(payload.email);
   if (!user) return null;
 
@@ -29,4 +29,4 @@ export const login = async (payload: LoginPayload): Promise<string | null> => {
     config.authSecret,
     { expiresIn: "1h" },
   );
-};
+}

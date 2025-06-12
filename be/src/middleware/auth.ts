@@ -5,11 +5,11 @@ import * as userRepo from "../features/user/repo";
 import { AuthError } from "../errors";
 import config from "../config";
 
-export const authMW = async (
+export async function authMW(
   req: Request,
   res: Response,
   next: NextFunction,
-): Promise<void> => {
+): Promise<void> {
   const token = (req.header("Authorization") ?? "").split(" ")[1];
 
   if (token) {
@@ -30,4 +30,4 @@ export const authMW = async (
   } else {
     next(new AuthError("Unauthorized"));
   }
-};
+}

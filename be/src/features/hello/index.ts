@@ -9,7 +9,7 @@ export default setupController([
     [HTTP_METHOD.POST, "/hello"],
     [
       authMW,
-      async (req, res) => {
+      async function hello(req, res) {
         const body = z.object({ name: z.string().nonempty() }).parse(req.body);
 
         res.status(HTTP_STATUS_CODE.OK).json({

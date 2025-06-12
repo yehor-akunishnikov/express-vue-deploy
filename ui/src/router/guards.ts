@@ -1,15 +1,15 @@
 import { hasAuthToken, removeAuthToken } from "@/utils/localStorage";
 import { useCurrentUserStore } from "@/stores/currentUser";
 
-export const authGuard = (): boolean | { name: string } => {
+export function authGuard(): boolean | { name: string } {
   if (hasAuthToken()) {
     return true;
   } else {
     return { name: "auth" };
   }
-};
+}
 
-export const userDataGuard = async (): Promise<boolean | { name: string }> => {
+export async function userDataGuard(): Promise<boolean | { name: string }> {
   if (hasAuthToken()) {
     const currentUserStore = useCurrentUserStore();
 
@@ -19,9 +19,9 @@ export const userDataGuard = async (): Promise<boolean | { name: string }> => {
   }
 
   return true;
-};
+}
 
-export const logoutGuard = (): boolean => {
+export function logoutGuard(): boolean {
   removeAuthToken();
 
   const currentUserStore = useCurrentUserStore();
@@ -29,4 +29,4 @@ export const logoutGuard = (): boolean => {
   currentUserStore.clear();
 
   return true;
-};
+}

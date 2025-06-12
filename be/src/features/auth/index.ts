@@ -7,7 +7,7 @@ export default setupController([
   [
     [HTTP_METHOD.POST, "/login"],
     [
-      async (req, res) => {
+      async function login(req, res) {
         const body = loginValidator.parse(req.body);
 
         const token = await userService.login(body);
@@ -25,7 +25,7 @@ export default setupController([
   [
     [HTTP_METHOD.POST, "/register"],
     [
-      async (req, res) => {
+      async function register(req, res) {
         const body = registerValidator.parse(req.body);
 
         await userService.register(body);

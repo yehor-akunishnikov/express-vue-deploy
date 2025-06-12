@@ -4,9 +4,9 @@ import { UserSelect } from "../../db/models/user/types";
 import { userSchema } from "../../db/models/schema";
 import { db } from "../../db";
 
-export const findOneByEmail = async (
+export async function findOneByEmail(
   email: string,
-): Promise<UserSelect | null> => {
+): Promise<UserSelect | null> {
   const response = await db
     .select()
     .from(userSchema)
@@ -18,4 +18,4 @@ export const findOneByEmail = async (
   }
 
   return null;
-};
+}
