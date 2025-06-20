@@ -3,6 +3,7 @@ export type AlertConfig = {
   description?: string;
   severity: ALERT_SEVERITY;
   durationMs?: number;
+  id?: string;
 };
 
 export enum ALERT_SEVERITY {

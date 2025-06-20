@@ -7,9 +7,10 @@ import { ALERT_SEVERITY } from "@/types/common";
 export { default as Alert } from "./Alert.vue";
 
 export const alertVariants = cva(
-  "relative w-full rounded-lg border px-4 py-3 text-sm grid has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] " +
+  "absolute w-3/4 md:w-1/2 lg:w-1/3 xl:w-1/4 rounded-lg border px-4 py-3 text-sm grid has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] " +
     "grid-cols-[0_1fr] has-[>svg]:gap-x-3 gap-y-0.5 items-start [&>svg]:size-4 " +
-    "[&>svg]:translate-y-0.5 [&>svg]:text-current",
+    "[&>svg]:translate-y-0.5 [&>svg]:text-current" +
+    "transition-opacity duration-500 drop-shadow-sm drop-shadow-gray-400",
   {
     variants: {
       variant: {

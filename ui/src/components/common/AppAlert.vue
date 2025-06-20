@@ -1,39 +1,51 @@
 <script setup lang="ts">
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useAppAlertStore } from "@/stores/appAlert";
-import { cn } from "@/lib/utils";
 
 const state = useAppAlertStore();
 </script>
 
 <template>
-  <div class="wrapper w-full md:w-1/2 lg:w-1/3 xl:w-1/4">
-    <Alert
-      :class="
-        cn(
-          'transition-opacity duration-500',
-          'drop-shadow-sm drop-shadow-gray-400',
-          state.isShown ? 'opacity-100' : 'opacity-0',
-        )
-      "
-      :severity="state.currentConfig?.severity"
+  <Transition>
+    <div
+      class="wrapper"
+      v-if="state.isShown"
     >
-      <AlertTitle>
-        {{ state.currentConfig?.title }}
-      </AlertTitle>
-      <AlertDescription>
-        {{ state.currentConfig?.description }}
-      </AlertDescription>
-    </Alert>
-  </div>
+      <Alert
+        v-for="(config, i) in state.publicQueue"
+        :key="config?.id"
+        :severity="config?.severity"
+        :index="i"
+      >
+        <AlertTitle>
+          {{ config?.title }}
+        </AlertTitle>
+        <AlertDescription>
+          {{ config?.description }}
+        </AlertDescription>
+      </Alert>
+    </div>
+  </Transition>
 </template>
 
 <style scoped lang="scss">
 .wrapper {
+  width: 100%;
+
   position: fixed;
   bottom: 0;
   right: 0;
 
   padding: 0.5rem;
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
 }
 </style>
