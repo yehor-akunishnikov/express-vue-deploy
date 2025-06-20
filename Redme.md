@@ -12,14 +12,3 @@ cd be && npm run dev
 ```shell
 cd ui && npm run dev
 ```
-
-___
-
-Prod setup
-```shell
-docker compose build --no-cache
-```
-
-```shell
-docker compose up
-```
