@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { useForm } from "@/composables/useForm";
-import AuthResponseError from "@/features/auth/partials/AuthResponseError.vue";
+import AuthResponseError from "@/features/auth/forms/partials/AuthResponseError.vue";
 import PasswordInput from "@/components/forms/PasswordInput.vue";
 import FormField from "@/components/forms/FormField.vue";
 import FormInput from "@/components/forms/FormInput.vue";
-import AuthFormBtn from "@/features/auth/partials/AuthFormBtn.vue";
+import AuthFormBtn from "@/features/auth/forms/partials/AuthFormBtn.vue";
 import { registerValidator } from "@/features/auth/forms/validators";
-import AuthBottomLink from "@/features/auth/partials/AuthBottomLink.vue";
+import AuthBottomLink from "@/features/auth/forms/partials/AuthBottomLink.vue";
 import httpClient from "@/utils/httpClient";
 import router from "@/router";
 import { useAppAlertStore } from "@/stores/appAlert";
