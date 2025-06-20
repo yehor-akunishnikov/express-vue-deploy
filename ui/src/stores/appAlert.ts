@@ -1,32 +1,38 @@
 import { defineStore } from "pinia";
-import { computed, ref } from "vue";
+import { ref } from "vue";
 
 import { type AlertConfig } from "@/types/common";
 
 export const useAppAlertStore = defineStore("appAlertStore", () => {
   const configsQueue = ref<AlertConfig[]>([]);
-  const latestConfig = ref<AlertConfig | null>(null);
+  const alertRemovalInterval = ref<number | null>(null);
 
-  const publicQueue = computed(() =>
-    configsQueue.value.length ? configsQueue.value : [latestConfig.value],
-  );
-  const isShown = computed<boolean>(() => !!configsQueue.value.length);
+  function startCleanup(durationMs: number): void {
+    alertRemovalInterval.value = setInterval(() => {
+      configsQueue.value.shift();
+
+      if (!configsQueue.value.length) {
+        clearInterval(alertRemovalInterval.value!);
+      }
+    }, durationMs);
+  }
 
   function show(alertConfig: AlertConfig): void {
-    if (configsQueue.value.length >= 5) return;
+    const MAX_ALERTS_AT_A_TIME = 5;
+    const DEFAULT_DISPLAY_TIME_MS = 3000;
+
+    if (configsQueue.value.length >= MAX_ALERTS_AT_A_TIME) return;
 
     alertConfig.id = crypto.randomUUID();
     alertConfig.title = alertConfig.title ?? alertConfig.severity;
     configsQueue.value = [...configsQueue.value, alertConfig];
-    latestConfig.value = alertConfig;
 
-    setTimeout(
-      () => {
-        configsQueue.value.shift();
-      },
-      (alertConfig.durationMs ?? 3000) * configsQueue.value.length + 1,
-    );
+    if (alertRemovalInterval.value) {
+      clearInterval(alertRemovalInterval.value);
+    }
+
+    startCleanup(alertConfig.durationMs ?? DEFAULT_DISPLAY_TIME_MS);
   }
 
-  return { show, publicQueue, isShown };
+  return { show, configsQueue };
 });

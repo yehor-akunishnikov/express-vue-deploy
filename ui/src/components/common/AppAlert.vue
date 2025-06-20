@@ -6,26 +6,21 @@ const state = useAppAlertStore();
 </script>
 
 <template>
-  <Transition>
-    <div
-      class="wrapper"
-      v-if="state.isShown"
+  <TransitionGroup>
+    <Alert
+      v-for="(config, i) in state.configsQueue"
+      :key="config.id"
+      :severity="config.severity"
+      :index="i"
     >
-      <Alert
-        v-for="(config, i) in state.publicQueue"
-        :key="config?.id"
-        :severity="config?.severity"
-        :index="i"
-      >
-        <AlertTitle>
-          {{ config?.title }}
-        </AlertTitle>
-        <AlertDescription>
-          {{ config?.description }}
-        </AlertDescription>
-      </Alert>
-    </div>
-  </Transition>
+      <AlertTitle>
+        {{ config.title }}
+      </AlertTitle>
+      <AlertDescription>
+        {{ config.description }}
+      </AlertDescription>
+    </Alert>
+  </TransitionGroup>
 </template>
 
 <style scoped lang="scss">

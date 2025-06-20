@@ -29,6 +29,7 @@ defineProps<{
   border-width: 1px;
   border-style: solid;
   border-color: unset;
+  font-size: var(--text-lg);
 
   &:disabled {
     opacity: 0.4;

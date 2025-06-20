@@ -46,7 +46,7 @@ const model = defineModel<string>({ default: "" });
 
 .input {
   width: 100%;
-  padding: 0.25rem 0.5rem;
+  padding: 0.5rem 0.5rem;
 }
 
 .addon {

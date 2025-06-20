@@ -6,10 +6,11 @@ import FormInput from "@/components/forms/FormInput.vue";
 import AuthFormBtn from "@/features/auth/partials/AuthFormBtn.vue";
 import { loginValidator } from "@/features/auth/forms/validators";
 import AuthBottomLink from "@/features/auth/partials/AuthBottomLink.vue";
+import AuthResponseError from "@/features/auth/partials/AuthResponseError.vue";
 import { useAppAlertStore } from "@/stores/appAlert";
 import { setAuthToken } from "@/utils/localStorage";
-import httpClient from "@/utils/httpClient";
 import { ALERT_SEVERITY } from "@/types/common";
+import httpClient from "@/utils/httpClient";
 import router from "@/router";
 
 const alert = useAppAlertStore();
@@ -30,13 +31,15 @@ const form = useForm(
       if (res.token) {
         setAuthToken(res.token);
 
+        alert.show({
+          description: "Successfully logged in, redirecting to the Dashboard page",
+          severity: ALERT_SEVERITY.INFO,
+        });
+
         router.push({ name: "dashboard" });
       }
     } catch (e) {
-      alert.show({
-        description: "Failed to login, please try again",
-        severity: ALERT_SEVERITY.ERROR,
-      });
+      form.setResponseError("Failed to login, please try again");
     }
   },
 );
@@ -44,7 +47,7 @@ const form = useForm(
 
 <template>
   <form @submit.stop.prevent="form.handleSubmit">
-    <div class="space-y-3 mb-6">
+    <div class="space-y-3">
       <FormField
         id="email-input"
         label="Email"
@@ -72,6 +75,7 @@ const form = useForm(
     </div>
 
     <div class="space-y-2">
+      <AuthResponseError :text="form.responseError.value" />
       <AuthFormBtn
         :disabled="form.isLoading.value"
         type="submit"

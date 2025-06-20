@@ -46,7 +46,7 @@ const model = defineModel<string>();
 <style scoped lang="scss">
 .button {
   display: inline-block;
-  padding: 0.25rem 0.5rem;
+  padding: 0.25rem 0.75rem;
   height: 100%;
 
   cursor: pointer;

@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import { useForm } from "@/composables/useForm";
+import AuthResponseError from "@/features/auth/partials/AuthResponseError.vue";
 import PasswordInput from "@/components/forms/PasswordInput.vue";
 import FormField from "@/components/forms/FormField.vue";
 import FormInput from "@/components/forms/FormInput.vue";
 import AuthFormBtn from "@/features/auth/partials/AuthFormBtn.vue";
 import { registerValidator } from "@/features/auth/forms/validators";
 import AuthBottomLink from "@/features/auth/partials/AuthBottomLink.vue";
-import { useAppAlertStore } from "@/stores/appAlert";
 import httpClient from "@/utils/httpClient";
-import { ALERT_SEVERITY } from "@/types/common";
 import router from "@/router";
+import { useAppAlertStore } from "@/stores/appAlert";
+import { ALERT_SEVERITY } from "@/types/common";
 
 const alert = useAppAlertStore();
 const form = useForm(
@@ -27,12 +28,14 @@ const form = useForm(
         },
       });
 
+      alert.show({
+        description: "Successfully registered, redirecting to the Login page",
+        severity: ALERT_SEVERITY.INFO,
+      });
+
       router.push({ name: "auth:login" });
     } catch (e) {
-      alert.show({
-        description: "Failed to register, please try again",
-        severity: ALERT_SEVERITY.ERROR,
-      });
+      form.setResponseError("Failed to register, please try again");
     }
   },
 );
@@ -40,7 +43,7 @@ const form = useForm(
 
 <template>
   <form @submit.stop.prevent="form.handleSubmit">
-    <div class="space-y-3 mb-6">
+    <div class="space-y-3">
       <FormField
         id="email-input"
         label="Email"
@@ -81,6 +84,7 @@ const form = useForm(
     </div>
 
     <div class="space-y-2">
+      <AuthResponseError :text="form.responseError.value" />
       <AuthFormBtn
         :disabled="form.isLoading.value"
         type="submit"

@@ -11,6 +11,8 @@ export const useForm = <T extends Record<string, unknown>>(
   const state = reactive<T>(defaultValue);
   const isDirty = ref(false);
   const isLoading = ref(false);
+  const responseError = ref<string | null>(null);
+  const responseErrorTimeout = ref<number | null>(null);
 
   const errorState = computed<ErrorState>((): ErrorState => {
     const errorsMap: ErrorState = {};
@@ -58,12 +60,26 @@ export const useForm = <T extends Record<string, unknown>>(
     }
   }
 
+  function setResponseError(text: string): void {
+    responseError.value = text;
+
+    if (responseErrorTimeout.value) {
+      clearTimeout(responseErrorTimeout.value);
+    }
+
+    responseErrorTimeout.value = setTimeout(() => {
+      responseError.value = null;
+    }, 3000);
+  }
+
   return {
     state,
     errorState,
     isLoading,
     isDirty,
     isValid,
+    responseError,
     handleSubmit,
+    setResponseError,
   };
 };
