@@ -27,11 +27,9 @@ export const useAppAlertStore = defineStore("appAlertStore", () => {
     alertConfig.title = alertConfig.title ?? alertConfig.severity;
     configsQueue.value = [...configsQueue.value, alertConfig];
 
-    if (alertRemovalInterval.value) {
-      clearInterval(alertRemovalInterval.value);
+    if (!alertRemovalInterval.value) {
+      startCleanup(alertConfig.durationMs ?? DEFAULT_DISPLAY_TIME_MS);
     }
-
-    startCleanup(alertConfig.durationMs ?? DEFAULT_DISPLAY_TIME_MS);
   }
 
   return { show, configsQueue };
